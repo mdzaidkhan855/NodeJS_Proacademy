@@ -72,3 +72,15 @@
                    c. Or npm install nodemon --save-dev(dev dependency)
                    c. results in node_modules
                    d. now run : nodemon app.js
+
+####################  Event Loop in Practice #########################
+1. Plz follow NodeJS-Architecture.pptx for details
+2. The practice is eventLoop.js : nodemon eventLoop.js
+
+####################  Express framework #########################
+ 1. Express is open source web application framework for NodeJS
+ 2. Web application can be written in very few lines of code and faster
+ 3. Using express, MVC architecture is maintained
+ 4. Go to the folder NodeJS-Express : npm init
+ 5. For uniformity, I have made entry point in package.json as app.js
+ 6. Create an app.js file manually

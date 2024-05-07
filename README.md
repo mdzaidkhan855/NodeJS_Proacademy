@@ -50,6 +50,7 @@
         res.end("Even driven architecture defined")
     })
 ################### Streaming #######################
+0. 0. run: node streamApp.js
 1. fs.readFile and fs.writeFile creates buffer in memory and then at once reads/writes
 2. Using Stream, we do it in pieces. Not required to keep in memory.
 3. when use Stream, Read/Write Buffer is created along with Read/Write Stream.
@@ -62,3 +63,12 @@
 9. The solution is using pipe method.
 10. The pipe method can ONLY be used on readable stream.
 
+
+##################  NPM and packages ########################
+1. Node has core library like http, fs etc. It does not require NPM.
+2. For third parties library, we need to do as below
+                   a. npm init => package.json
+                   b. install third parties libraries like express: npm install express(regular dependency)
+                   c. Or npm install nodemon --save-dev(dev dependency)
+                   c. results in node_modules
+                   d. now run : nodemon app.js

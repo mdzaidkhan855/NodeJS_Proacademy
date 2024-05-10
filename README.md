@@ -84,3 +84,53 @@
  4. Go to the folder NodeJS-Express : npm init
  5. For uniformity, I have made entry point in package.json as app.js
  6. Create an app.js file manually
+ 7. when use res.send("hi"), content by default text/html
+ 8. When want to send json response, it sould be res.json({message:"hi"})
+
+ ######################### API #################################
+ 1. fs and http etc. are Node API used by NodeJS
+ 2. Similarly fetch and getElementById are Browsers DOM API provided by Browser
+    These API are not provided by Javascript
+ 3. End point should have ONLY resources(nonus NOT verbs). Verb should be Http method
+    /getMovies  => GET /Movies, /addMovies => POST /Movies 
+ 4. JSend JSON DATA is one of the standard format used to send Json response.
+     It has status and data. Inside data , we send Json response as it is.
+     So JSend JSON does some kind of enveloping.
+ 5. To attach a body to request while doing POST, we need to use middleware
+     To use middleware in express, the middleware here is express.json()
+     now we use that middleware in express : app.use(express.json())
+     This middleware add request body to req object,which is used for post method
+
+####################### Route Parameters #######################
+1. req.params stores request parameter as an object
+2. Requesting /api/vi/movies/4/john/12 for end points '/api/vi/movies/:id/:name/:x' 
+3. req.params : { id: '4', name: 'john', x: '12' }
+4. All the param values are string.
+5. For some of the params to be optional, we need to decalre like: /api/vi/movies/:id/:name/:x?
+6. 
+
+######################  Express As a Middleware ####################
+1. We used express.json() as middleware.
+2. This middleware adds body to request. Similarly routes are part of middleware.
+3. Order of middleware are same as defined in the code.
+4. So order of middleware in express matters a lot.
+5. The processing of request/response happens in all the middleware one after another.
+
+#################### Custom Middleware(2-app.js) #########################
+1. Go to NodeJS-Express : nodemon 2-app.js
+2. Define logger as middleware. 
+3. use(app.use(logger)) this middleware before route defined.
+4. The console inside logger middleware called
+5. If logger middle is used after router, then logger middleware will not be called.
+6. In the code used a middleware to add a property requestedAt to request object.
+
+#################### Third part middleware called Morgan ####################
+1. Go to NodeJS-Express : nodemon 2-app.js
+2. Morgan is a popular logging middleware
+
+#####################  Refactoring of code ###########################
+1. A separate module for routes created inside Routes folder
+2. A separate module for controllers created inside Controllers folder
+3. Creating and running server code put inside server.js
+4. The code from app.js moved into above 3 files.
+5. Now Entry point is server.js, Not app.js :: nodemon server.js

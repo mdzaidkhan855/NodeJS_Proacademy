@@ -1,6 +1,10 @@
 const express = require('express');
 const moviesRouter = require('./Routes/moviesRoutes');
 const morgan = require('morgan');
+const CustomErroor = require('./Utils/CustomError');
+const globalErrorHandler = require('./Controllers/errorController');
+
+
 let app = express();
 
 
@@ -142,12 +146,21 @@ app.use('/api/vi/movies',moviesRouter)
 
 // All other routes for which there is no pattern
 app.all('*', (req,res,next)=>{
-    res.status(404).json({
-        status:"fail",
-        message:`Can't find ${req.originalUrl} on the server`
-    })
-    //next();
+    // res.status(404).json({
+    //     status:"fail",
+    //     message:`Can't find ${req.originalUrl} on the server`
+    // })
+    // const err = new Error(`Can't find ${req.originalUrl} on the server`);
+    // err.status = 'fail';
+    // err.statusCode = 404;
+
+    const err = new CustomErroor(`Can't find ${req.originalUrl} on the server`,404)
+    // Whenever passed any argument to next function, express understands it some error
+    next(err);
 })
+
+// Global error handling middleware
+app.use(globalErrorHandler)
 
 // Create server and listen
 // const port = '5000'

@@ -12,7 +12,7 @@ const movieSchema = new mongoose.Schema({
         minlength:[4,'Movie name must have at least 4 characters'],
         trim:true,
         // The below from third party library validator
-        validate:[validator.isAlpha, 'Name should contain alphabets']
+        //validate:[validator.isAlpha, 'Name should contain alphabets']
     },
     description:{
         type:String,

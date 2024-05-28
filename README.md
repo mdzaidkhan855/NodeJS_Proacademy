@@ -134,3 +134,13 @@
 3. Creating and running server code put inside server.js
 4. The code from app.js moved into above 3 files.
 5. Now Entry point is server.js, Not app.js :: nodemon server.js
+
+##################### Debugging in NodeJS ############################
+1. Use VScode in-built tool to debug nodejs code.
+2. Click icon on the left for run and debug
+3. Click <create a launch.json file>
+4. select NodeJS 
+5. It will create launch.json
+6. selectdropdown Launch process as <attach to process>. will create configuration block in launch.json
+7. It will have "name": "Attach by Process ID"
+8. again go to dropdown and now select "Attach by Process ID"

@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs')
+const crypto = require('crypto')
+
 
 const userSchema = new mongoose.Schema({
     name:{
@@ -16,6 +18,11 @@ const userSchema = new mongoose.Schema({
         validate:[validator.isEmail,'Please enter a valid email.']
     },
     photo:String,
+    role:{
+        type:String,
+        enum:['user','admin'],
+        default:'user'
+    },
     password:{
         type:String,
         required:[true,'Password is required field'],
@@ -37,7 +44,9 @@ const userSchema = new mongoose.Schema({
             message:"Password and Confirm Password does not match"
         }
     },
-    passwordChangedAt:Date
+    passwordChangedAt:Date,
+    passwordResetToken:String,
+    passwordResetTokenExpires:Date
         
 })
 
@@ -67,6 +76,22 @@ userSchema.methods.isPasswordChanged = async function(JWTtimestamp){
     }
     return false;
 }
+
+userSchema.methods.createResetPasswordToken = function(){
+    // This is plane token, not encrypted one
+    const resetToken = crypto.randomBytes(32).toString('hex')
+
+    // persisting encrypted reset token in db
+    this.passwordResetToken = crypto.createHash('sha256').update(resetToken).digest('hex')
+    
+    // expiry token time is 10 minutes(10*60*1000) in millisecinds
+    // And persisting in db
+    this.passwordResetTokenExpires = Date.now() + 10*60*1000;
+
+    // Note: returning plain, not encrypted one
+    return resetToken;
+}
+
 const User = mongoose.model('User',userSchema)
 
 module.exports = User;

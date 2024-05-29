@@ -2,7 +2,7 @@ const express = require('express')
 const {getAllMovies,createMovie,getMovie,
         updateMovie,deleteMovie,
         getHighestRated, getMovieStats, getMoviesByGenre} = require('../Controllers/moviesController')
-const {protect} = require('./../Controllers/authController')
+const {protect,restrict} = require('./../Controllers/authController')
 
 const router = express.Router();
 
@@ -27,7 +27,7 @@ router.route('/')
 router.route('/:id')
         .get(protect, getMovie)
         .patch(updateMovie)
-        .delete(deleteMovie)
+        .delete(protect, restrict('admin'), deleteMovie)
 
 
 module.exports = router

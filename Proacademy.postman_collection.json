@@ -1,0 +1,491 @@
+{
+	"info": {
+		"_postman_id": "d0b22cce-2622-4cb2-b6d8-6e220870ea51",
+		"name": "Proacademy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8992301"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "SignUp",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"jwt\", pm.response.json().token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Mark\",\r\n    \"email\":\"mark@gmail.com\",\r\n    \"password\":\"test1234\",\r\n    \"confirmPassword\":\"test1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_CINEFLEX}}/api/vi/users/signup",
+							"host": [
+								"{{URL_CINEFLEX}}"
+							],
+							"path": [
+								"api",
+								"vi",
+								"users",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"jwt\", pm.response.json().token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"mark@gmail.com\",\r\n    \"password\":\"pass1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_CINEFLEX}}/api/vi/users/login",
+							"host": [
+								"{{URL_CINEFLEX}}"
+							],
+							"path": [
+								"api",
+								"vi",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"mark@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_CINEFLEX}}/api/vi/users/forgotPassword",
+							"host": [
+								"{{URL_CINEFLEX}}"
+							],
+							"path": [
+								"api",
+								"vi",
+								"users",
+								"forgotPassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"jwt\", pm.response.json().token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\":\"pass1234\",\r\n    \"confirmPassword\":\"pass1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_CINEFLEX}}/api/vi/users/resetPassword/a70e6719cbb4505630da8121df78bce96893ba100dde1fb879f7258d270cd81e",
+							"host": [
+								"{{URL_CINEFLEX}}"
+							],
+							"path": [
+								"api",
+								"vi",
+								"users",
+								"resetPassword",
+								"a70e6719cbb4505630da8121df78bce96893ba100dde1fb879f7258d270cd81e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"jwt\", pm.response.json().token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"currentPassword\":\"pass1234\",\r\n    \"password\":\"test1234\",\r\n    \"confirmPassword\":\"test1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_CINEFLEX}}/api/vi/users/updatePassword",
+							"host": [
+								"{{URL_CINEFLEX}}"
+							],
+							"path": [
+								"api",
+								"vi",
+								"users",
+								"updatePassword"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Movies",
+			"item": [
+				{
+					"name": "GetAllMovies",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_CINEFLEX}}/api/vi/movies",
+							"host": [
+								"{{URL_CINEFLEX}}"
+							],
+							"path": [
+								"api",
+								"vi",
+								"movies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddMovies",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t  \r\n\t  \"name\": \"Tes\",\r\n      \"description\": \"Left for dead on a sun-scorched planet, Riddick finds himself up against an alien race of predators. Activating an emergency beacon alerts two ships: one carrying a new breed of mercenary, the other captained by a man from Riddick's past.\",\r\n\t  \"duration\": 119,\r\n\t  \"ratings\": 11,\r\n\t  \"totalRating\": 329,\r\n\t  \"releaseYear\": 2025,\r\n\t  \"releaseDate\": \"2025-09-04T00:00:00Z\",\r\n\t  \"genres\": [\r\n\t  \t  \"Action\",\r\n\t\t  \"Sci-Fi\",\r\n\t\t  \"Thriller\"\r\n      ],\r\n\t  \"directors\": [ \"David Twohy\" ],\r\n\t  \"coverImage\": \"Riddick-2013.jpg\",\r\n\t  \"actors\": [\r\n\t  \t  \"Vin Diesel\",\r\n\t\t  \"Karl Urban\",\r\n\t\t  \"Katee Sackhoff\"\r\n\t  ],\r\n\t  \"price\": 50\r\n\t}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/vi/movies",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"vi",
+								"movies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetMovieByID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NTVmMDRmZDljOGVlNTdlNDFhNWFmZCIsImlhdCI6MTcxNjkwODExMiwiZXhwIjoxNzE5NTAwMTEyfQ.vCZLYcgLSUH2-dN4VMmo5Jjr61-e7L6kdcF8LhKozzE",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL_CINEFLEX}}/api/vi/movies/66518aa5d7d0ba7e3c9487bc",
+							"host": [
+								"{{URL_CINEFLEX}}"
+							],
+							"path": [
+								"api",
+								"vi",
+								"movies",
+								"66518aa5d7d0ba7e3c9487bc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update MovieByID",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{           \"duration\": \"ddddd\"\r\n                \r\n                \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/vi/movies/66420efda96706261eeb2ec1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"vi",
+								"movies",
+								"66420efda96706261eeb2ec1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteMovieByID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/vi/movies/66518aa5d7d0ba7e3c9487bf",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"vi",
+								"movies",
+								"66518aa5d7d0ba7e3c9487bf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5-Highest-RatedMovies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/vi/movies?duration[gte]=110&fields=name,duration,price&sort=price&page=3&limit=3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"vi",
+								"movies"
+							],
+							"query": [
+								{
+									"key": "duration[gte]",
+									"value": "110"
+								},
+								{
+									"key": "fields",
+									"value": "name,duration,price"
+								},
+								{
+									"key": "sort",
+									"value": "price"
+								},
+								{
+									"key": "page",
+									"value": "3"
+								},
+								{
+									"key": "limit",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Movie-Stats",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/vi/movies/movie-stats",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"vi",
+								"movies",
+								"movie-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MoviesByGenre",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/vi/movies/movies-by-genre/Romance",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"vi",
+								"movies",
+								"movies-by-genre",
+								"Romance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllReleasedMovies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/vi/movies",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"vi",
+								"movies"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

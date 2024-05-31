@@ -18,6 +18,11 @@ const userSchema = new mongoose.Schema({
         validate:[validator.isEmail,'Please enter a valid email.']
     },
     photo:String,
+    active:{
+        type:Boolean,
+        default:true,
+        select:false
+    },
     role:{
         type:String,
         enum:['user','admin'],
@@ -64,7 +69,10 @@ userSchema.pre('save', async function(next){
     this.confirmPassword = undefined
     next();
 })
-
+userSchema.pre(/^find/, async function(next){
+    this.find({active:true})
+    next()
+})
 userSchema.methods.comparePasswordIndb = async function(pswd,pswddb){
     return await bcrypt.compare(pswd,pswddb)
 }

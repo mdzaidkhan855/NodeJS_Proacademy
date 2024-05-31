@@ -1,13 +1,32 @@
 const express = require('express');
 const moviesRouter = require('./Routes/moviesRoutes');
 const authRouter = require('./Routes/authRoutes');
+const userRouter = require('./Routes/userRoutes')
 const morgan = require('morgan');
 const CustomErroor = require('./Utils/CustomError');
 const globalErrorHandler = require('./Controllers/errorController');
 
+// Security packages
+const rateLimit = require('express-rate-limit')
+const helmet = require('helmet')
+const sanitize = require('express-mongo-sanitize')
+const xss = require('xss-clean')
+const hpp = require('hpp')
+
 
 let app = express();
 
+app.use(helmet())
+
+// Rate Limit code: starts. 
+// All APIs which starts with "api" will have ratelimit 
+let limiter = rateLimit({
+    max:3,
+    windowMs:60*60*1000,
+    message:'We have received too many request.Plz try after one hour'
+})
+app.use('/api',limiter)
+// Rate Limit code: ends
 
 //let moviesJson = fs.readFileSync('./data/movies.json');
 // convert into Javascript object
@@ -104,7 +123,17 @@ let app = express();
 //To use middleware in express, the middleware here is express.json()
 // now we use that middleware in express : app.use(express.json())
 // This middleware add request body to req object,which is used for post method
-app.use(express.json())
+
+//app.use(express.json())
+app.use(express.json({limit:'10kb'}))// For Denial of service(DoS), use limit of data like 10kb
+
+// Mongo santize: it will prevent nosql query
+app.use(sanitize())
+
+// xss clean: will clean any html input from malicious code
+app.use(xss())
+// Http parameter pollution to be prevented
+app.use(hpp({whitelist:['duration','ratings','releaseYear','releaseDate','genres']}))
 
 if(process.env.NODE_ENV === 'development')
 app.use(morgan('dev'))
@@ -144,7 +173,8 @@ app.use(express.static('./public'))
 
 // Approach -4 , Creating a separate router: moviesRoutes.js
 app.use('/api/vi/movies',moviesRouter)
-app.use('/api/vi/users',authRouter)
+app.use('/api/vi/auth',authRouter)
+app.use('/api/vi/user',userRouter)
 
 // All other routes for which there is no pattern
 app.all('*', (req,res,next)=>{

@@ -15,6 +15,17 @@ const signToken = (id)=>{
 
 const createSendResponse = (user, statusCode, res)=>{
     const token = signToken(user._id)
+
+    const options = {
+        maxAge:10000000,
+        //secure:true, // This will be used only in case of https(production)
+        httpOnly:true
+    }
+
+    if(process.env.NODE_ENV === 'production'){
+        options.secure = true
+    }
+    res.cookie('jwt',token,options)
     res.status(statusCode).json({
         status:"success",
         token,
@@ -181,30 +192,6 @@ exports.resetPassword = asyncErrorHandler(async (req,res,next)=>{
     // res.status(200).json({
     //     status:"success",
     //     token:newtoken    
-    // })
-    createSendResponse(user,200,res)
-})
-
-exports.updatePassword = asyncErrorHandler(async (req,res,next)=>{
-    // 1. get current user from db
-        const user = await User.findById(req.user._id).select('+password')
-    // 2. Supplied password is correct or not, as an extra security
-          // if yes then update with new one
-    if(!(await user.comparePasswordIndb(req.body.currentPassword,user.password))){
-        return next(new CustomError('Current password provided is wrong', 401))
-    }
-    user.password = req.body.password;
-    user.confirmPassword = req.body.confirmPassword;
-    await user.save();
-
-    // 3. Login and send token
-    // const newtoken = signToken(user._id)
-    // res.status(200).json({
-    //     status:"success",
-    //     token:newtoken,
-    //     data:{
-    //         user
-    //     }    
     // })
     createSendResponse(user,200,res)
 })
